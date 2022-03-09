@@ -12,6 +12,7 @@ struct node
 void createNode(int n);
 void insert_at_front(int data);
 void insert_at_end(int data);
+void insert_at_pos();
 void delete_beginning();
 void delete_end();
 void display();
@@ -19,32 +20,67 @@ void display();
 
 int main()
 {
-    int n, data,data1;
-    printf("Enter the total number of nodes\n");
-    scanf("%d", &n);
-    createNode(n);
+    int n, data,data1,choice;
+    while (1) {
 
-    printf("\nData in the list \n");
-    display();
-    printf("Enter data to insert at beginning\n");
-    scanf("%d", &data);
-    insert_at_front(data);
-    display();
-    printf("Enter data to insert at end\n");
-    scanf("%d", &data1);
-    display();
-    insert_at_end(data1);
-    printf("\nData in the list \n");
-    display();
-    printf("\nDeletion");
-    delete_beginning();
-    printf("\nData in the list \n");
-    display();
-    delete_end();
-    display();
+        printf("\n*******************************************************************************\n");
+        printf("1) Create a node\n");
+        printf("2) Insert at beginnning\n");
+        printf("3) Insert at end\n");
+        printf("4) Insert at any position\n");
+        printf("5) Delete first element\n");
+        printf("6) Delete last element\n");
+        printf("7) Delete of element at any position\n");
+        printf("8) To exit\n");
+        printf("\n Enter Choice\n");
+        printf("\n*******************************************************************************\n");
+        scanf("%d", &choice);
 
+        switch (choice) {
+        case 1:
+            printf("Enter the total number of nodes\n");
+            scanf("%d", &n);
+            createNode(n);
+            printf("\nData in the list \n");
+            display();
+            break;
+        case 2:
+             printf("Enter data to insert at beginning\n");
+             scanf("%d", &data);
+             insert_at_front(data);
+             display();
+            break;
+        case 3:
+            printf("Enter data to insert at end\n");
+            scanf("%d", &data1);
+            insert_at_end(data1);
+            printf("\nData in the list \n");
+            display();
+            break;
+        case 4:
+            insert_at_pos();
+            break;
+        case 5:
+            delete_beginning();
+            printf("\nData in the list \n");
+            display();
+            break;
+        case 6:
+            delete_end();
+            printf("\nData in the list \n");
+            display();
+            break;
+        case 7:
+            deletePosition();
+            display();
+            break;
+        default:
+            printf("Incorrect Choice\n");
+        }
+    }
     return 0;
 }
+
 
 void createNode(int n)
 {
@@ -75,7 +111,7 @@ void createNode(int n)
             }
             else
             {
-                printf("Enter the data of node %d", i);
+                printf("Enter the data of node %d\n", i);
                 scanf("%d", &data);
                 newNode->data = data;
                 newNode->next = NULL;
@@ -135,6 +171,26 @@ void insert_at_end(int data1)
     }
 }
 
+void insert_at_pos()
+{
+    struct node *temp, *newnode;
+    int pos, data, i = 1;
+    newnode = malloc(sizeof(struct node));
+    printf("\nEnter position and data :");
+    scanf("%d %d", &pos, &data);
+    temp = head;
+    newnode->data= data;
+    newnode->next= 0;
+    while (i < pos - 1)
+    {
+        temp = temp->next;
+        i++;
+    }
+    newnode->next= temp->next;
+    temp->next= newnode;
+}
+
+
 void delete_beginning()
 {
     struct node *del;
@@ -153,6 +209,30 @@ void delete_beginning()
         free(del);
 
         printf("Node deleted successfully\n");
+    }
+}
+
+void deletePosition()
+{
+    struct node *temp, *position;
+    int i = 1, pos;
+    if (head== NULL)
+        printf("\nList is empty\n");
+    else
+    {
+        printf("\nEnter position\n");
+        scanf("%d", &pos);
+        position = malloc(sizeof(struct node));
+        temp = head;
+        while (i < pos - 1)
+        {
+            temp = temp->next;
+            i++;
+        }
+        position = temp->next;
+        temp->next = position->next;
+
+        free(position);
     }
 }
 
